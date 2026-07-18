@@ -53,16 +53,14 @@
         <a href="index.html" class="logo">🎓 VuzStat</a>
         <nav>
             <a href="index.html">Главная</a>
-            <!-- НОВАЯ ССЫЛКА НА КАЛЬКУЛЯТОР -->
             <a href="calc.html">Калькулятор баллов</a>
             <button class="theme-toggle" id="theme-btn">🌙 Темная тема</button>
         </nav>
     </header>
-
     <section class="search-section">
         <h1>Найди вуз своей мечты</h1>
         <div class="search-box">
-            <input type="text" id="live-search" placeholder="Введите название вуза, город или направление (например: IT, Москва)...">
+            <input type="text" id="live-search" placeholder="Введите название вуза, город или направление...">
         </div>
     </section>
 
@@ -78,24 +76,32 @@
     </footer>
 
     <script>
+        // Проверяем базу данных вузов
         const universities = [
             { name: "МГУ им. М.В. Ломоносова", city: "москва", tags: ["it", "математика", "юрист", "медицина"], link: "mgu.html", icon: "🏛️", desc: "Главный вуз страны. Высокие проходные баллы и собственный экзамен.", minBudget: 350, minComm: 240 },
             { name: "СПбГУ", city: "санкт-петербург питер спб", tags: ["it", "международные отношения", "программирование"], link: "spbgu.html", icon: "⚓", desc: "Один из старейших вузов. Программы международного уровня.", minBudget: 298, minComm: 210 }
         ];
 
+        // Функция вывода карточек
         function displayVuz(list) {
             const container = document.getElementById('vuz-container');
+            if(!container) return;
             container.innerHTML = "";
+            
             if (list.length === 0) {
-                container.innerHTML = "<p style='color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 20px;'>Ничего не найдено по вашему запросу...</p>";
+                container.innerHTML = "<p style='color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 20px;'>Ничего не найдено...</p>";
                 return;
             }
+            
             list.forEach(vuz => {
                 container.innerHTML += 
                     <a href="${vuz.link}" class="university-card">
                         <div class="card-header">
                             <div class="vuz-icon">${vuz.icon}</div>
-                            <div><h3>${vuz.name}</h3><span class="city-badge">${vuz.city.split(' ')[0].toUpperCase()}</span></div>
+                            <div>
+                                <h3>${vuz.name}</h3>
+                                <span class="city-badge">${vuz.city.split(' ')[0].toUpperCase()}</span>
+                            </div>
                         </div>
                         <p class="vuz-info-text">${vuz.desc}</p>
                         <div class="card-scores">
@@ -107,23 +113,31 @@
             });
         }
 
-        document.getElementById('live-search').addEventListener('input', function(e) {
-            let text = e.target.value.toLowerCase().trim();
-            let filtered = universities.filter(vuz => vuz.name.toLowerCase().includes(text) || vuz.city.toLocaleLowerCase().includes(text) || vuz.tags.some(t => t.includes(text)));
-            displayVuz(filtered);
-        });
+        // Поиск
+        const searchInput = document.getElementById('live-search');
+        if(searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                let text = e.target.value.toLowerCase().trim();
+                let filtered = universities.filter(vuz => vuz.name.toLowerCase().includes(text) || vuz.city.toLocaleLowerCase().includes(text) || vuz.tags.some(t => t.includes(text)));
+                displayVuz(filtered);
+            });
+        }
 
+        // Темная тема
         const themeBtn = document.getElementById('theme-btn');
-        themeBtn.addEventListener('click', function() {
-            if (document.body.getAttribute('data-theme') === 'dark') {
-                document.body.removeAttribute('data-theme');
-                themeBtn.innerText = "🌙 Темная тема";
-            } else {
-                document.body.setAttribute('data-theme', 'dark');
-                themeBtn.innerText = "☀️ Светлая тема";
-            }
-        });
+        if(themeBtn) {
+            themeBtn.addEventListener('click', function() {
+                if (document.body.getAttribute('data-theme') === 'dark') {
+                    document.body.removeAttribute('data-theme');
+                    themeBtn.innerText = "🌙 Темная тема";
+                } else {
+                    document.body.setAttribute('data-theme', 'dark');
+                    themeBtn.innerText = "☀️ Светлая тема";
+                }
+            });
+        }
 
+        // Сразу запускаем вывод карточек при загрузке страницы
         displayVuz(universities);
     </script>
 </body>
