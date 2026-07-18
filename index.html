@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VuzStat — Проходные баллы в вузы 2026</title>
+    <title>VuzStat — Поиск проходных баллов в вузы 2026</title>
     
     <style>
-        /* Переменные для тем и цветов */
+        /* Переменные для тем оформления */
         :root {
             --bg-color: #f8faff;
             --card-bg: #ffffff;
@@ -25,21 +25,32 @@
             --border-color: #334155;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; transition: background 0.2s, color 0.2s; }
+        /* Базовые стили */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: system-ui, -apple-system, sans-serif; 
+            transition: background 0.2s, color 0.2s; 
+        }
         body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 60px; }
         
+        /* Шапка */
         header { background-color: var(--card-bg); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .logo { font-size: 24px; font-weight: bold; color: var(--main-color); text-decoration: none; }
-        .theme-toggle { background: none; border: 1px solid var(--border-color); color: var(--text-color); padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 14px; }
+        .theme-toggle { background: none; border: 1px solid var(--border-color); color: var(--text-color); padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold; }
 
+        /* Поиск */
         .search-section { max-width: 800px; margin: 60px auto 40px; padding: 0 20px; text-align: center; }
         .search-section h1 { margin-bottom: 20px; font-size: 28px; }
         .search-box input { width: 100%; padding: 18px 25px; border-radius: 50px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); font-size: 16px; outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
 
+        /* Сетка карточек */
         .popular-section { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         .popular-section h2 { font-size: 22px; margin-bottom: 20px; }
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
         
+        /* Карточка вуза */
         .university-card { background: var(--card-bg); padding: 25px; border-radius: 12px; border: 1px solid var(--border-color); text-decoration: none; color: inherit; display: block; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
         .university-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.05); }
         .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
@@ -48,6 +59,7 @@
         .city-badge { display: inline-block; background: var(--bg-color); color: var(--text-muted); font-size: 12px; padding: 4px 8px; border-radius: 4px; margin-top: 5px; }
         .vuz-info-text { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px; }
         
+        /* Баллы */
         .card-scores { display: flex; gap: 10px; font-size: 13px; font-weight: bold; }
         .score-tag { padding: 5px 10px; border-radius: 6px; }
         .sc-budget { background: #e3f9e5; color: #1f7a26; }
@@ -62,17 +74,49 @@
         <a href="index.html" class="logo">🎓 VuzStat</a>
         <button class="theme-toggle" id="theme-btn">🌙 Темная тема</button>
     </header>
-
-    <section class="search-section">
+<section class="search-section">
         <h1>Найди вуз своей мечты</h1>
         <div class="search-box">
-            <input type="text" id="live-search" placeholder="Введите название вуза, город или направление (например: МГУ, Питер, IT)...">
+            <input type="text" id="live-search" placeholder="Введите название вуза или город...">
         </div>
     </section>
-<section class="popular-section">
+
+    <section class="popular-section">
         <h2>Доступные учебные заведения</h2>
         <div class="cards-grid" id="vuz-container">
-            <!-- Сюда JS загрузит карточки автоматически -->
+            
+            <!-- Карточка 1: МГУ -->
+            <a href="mgu.html" class="university-card" data-name="мгу им. м.в. ломоносова" data-city="москва">
+                <div class="card-header">
+                    <div class="vuz-icon">🏛️</div>
+                    <div>
+                        <h3>МГУ им. М.В. Ломоносова</h3>
+                        <span class="city-badge">МОСКВА</span>
+                    </div>
+                </div>
+                <p class="vuz-info-text">Главный вуз страны. Высокие проходные баллы, сильные традиции и собственный внутренний экзамен (ДВИ).</p>
+                <div class="card-scores">
+                    <span class="score-tag sc-budget">Бюджет от: 350</span>
+                    <span class="score-tag sc-comm">Платное от: 240</span>
+                </div>
+            </a>
+
+            <!-- Карточка 2: СПбГУ -->
+            <a href="spbgu.html" class="university-card" data-name="спбгу" data-city="санкт-петербург питер спб">
+                <div class="card-header">
+                    <div class="vuz-icon">⚓</div>
+                    <div>
+                        <h3>СПбГУ</h3>
+                        <span class="city-badge">САНКТ-ПЕТЕРБУРГ</span>
+                    </div>
+                </div>
+                <p class="vuz-info-text">Один из старейших вузов России. Программы международного уровня и сильный преподавательский состав.</p>
+                <div class="card-scores">
+                    <span class="score-tag sc-budget">Бюджет от: 298</span>
+                    <span class="score-tag sc-comm">Платное от: 210</span>
+                </div>
+            </a>
+
         </div>
     </section>
 
@@ -81,92 +125,36 @@
     </footer>
 
     <script>
-        // Простая база данных вузов прямо внутри скрипта
-        const universities = [
-            {
-                name: "МГУ им. М.В. Ломоносова",
-                city: "москва",
-                tags: ["it", "математика", "юрист", "медицина"],
-                link: "mgu.html",
-                icon: "🏛️",
-                desc: "Главный вуз страны. Высокие проходные баллы, сильные традиции и собственный внутренний экзамен (ДВИ).",
-                minBudget: 350,
-                minComm: 240
-            },
-            {
-                name: "СПбГУ",
-                city: "санкт-петербург питер спб",
-                tags: ["it", "международные отношения", "программирование"],
-                link: "spbgu.html",
-                icon: "⚓",
-                desc: "Один из старейших вузов России. Программы международного уровня и сильный преподавательский состав.",
-                minBudget: 298,
-                minComm: 210
-            }
-        ];
-
-        // Функция, которая берет массив выше и превращает его в карточки на экране
-        function displayVuz(list) {
-            const container = document.getElementById('vuz-container');
-            if(!container) return;
-            
-            container.innerHTML = "";
-            
-            if (list.length === 0) {
-                container.innerHTML = "<p style='color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 20px;'>Ничего не найдено...</p>";
-                return;
-            }
-
-            list.forEach(vuz => {
-                container.innerHTML += 
-                    <a href="${vuz.link}" class="university-card">
-                        <div class="card-header">
-                            <div class="vuz-icon">${vuz.icon}</div>
-                            <div>
-                                <h3>${vuz.name}</h3>
-                                <span class="city-badge">${vuz.city.split(' ')[0].toUpperCase()}</span>
-                            </div>
-                        </div>
-                        <p class="vuz-info-text">${vuz.desc}</p>
-                        <div class="card-scores">
-                            <span class="score-tag sc-budget">Бюджет от: ${vuz.minBudget}</span>
-                            <span class="score-tag sc-comm">Платное от: ${vuz.minComm}</span>
-                        </div>
-                    </a>
-                ;
-            });
-        }
-
-        // Логика мгновенного поиска по буквам
-        const searchInput = document.getElementById('live-search');
-        if (searchInput) {
-            searchInput.addEventListener('input', function(e) {
-                let text = e.target.value.toLowerCase().trim();
-                let filtered = universities.filter(vuz => {
-                    return vuz.name.toLowerCase().includes(text) || 
-                           vuz.city.toLowerCase().includes(text) || 
-                           vuz.tags.some(t => t.includes(text));
-                });
-                displayVuz(filtered);
-            });
-        }
-
-        // Логика работы темной темы
+        // Переключатель темной темы
         const themeBtn = document.getElementById('theme-btn');
-        if (themeBtn) {
-            themeBtn.addEventListener('click', function() {
-                if (document.body.getAttribute('data-theme') === 'dark') {
-                    document.body.removeAttribute('data-theme');
-                    themeBtn.innerText = "🌙 Темная тема";
+        themeBtn.addEventListener('click', () => {
+            if (document.body.getAttribute('data-theme') === 'dark') {
+                document.body.removeAttribute('data-theme');
+                themeBtn.innerText = "🌙 Темная тема";
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                themeBtn.innerText = "☀️ Светлая тема";
+            }
+        });
+
+        // Живой поиск по карточкам
+        const searchInput = document.getElementById('live-search');
+        const cards = document.querySelectorAll('.university-card');
+
+        searchInput.addEventListener('input', (e) => {
+            const text = e.target.value.toLowerCase().trim();
+            
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const city = card.getAttribute('data-city');
+                
+                if (name.includes(text) || city.includes(text)) {
+                    card.style.display = 'block';
                 } else {
-                    document.body.setAttribute('data-theme', 'dark');
-                    themeBtn.innerText = "☀️ Светлая тема";
+                    card.style.display = 'none';
                 }
             });
-        }
-
-        // Принудительный вывод вузов сразу после загрузки страницы
-        displayVuz(universities);
+        });
     </script>
 </body>
 </html>
