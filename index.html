@@ -3,25 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VuzStat — Поиск проходных баллов в вузы 2026</title>
+    <title>VuzStat — Проходные баллы в вузы 2026</title>
     
     <style>
+        /* Переменные для тем и цветов */
         :root {
-            --bg-color: #f8faff; --card-bg: #ffffff; --text-color: #333333;
-            --text-muted: #666666; --main-color: #1e56a0; --border-color: #edf2f7;
+            --bg-color: #f8faff;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-muted: #666666;
+            --main-color: #1e56a0;
+            --border-color: #edf2f7;
         }
+
         [data-theme="dark"] {
-            --bg-color: #0f172a; --card-bg: #1e293b; --text-color: #f8fafc;
-            --text-muted: #94a3b8; --main-color: #38bdf8; --border-color: #334155;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --main-color: #38bdf8;
+            --border-color: #334155;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; transition: background 0.2s, color 0.2s; }
         body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 60px; }
         
         header { background-color: var(--card-bg); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .logo { font-size: 24px; font-weight: bold; color: var(--main-color); text-decoration: none; }
-        nav { display: flex; align-items: center; gap: 20px; }
-        nav a { text-decoration: none; color: var(--text-muted); font-weight: bold; }
-        nav a:hover { color: var(--main-color); }
         .theme-toggle { background: none; border: 1px solid var(--border-color); color: var(--text-color); padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 14px; }
 
         .search-section { max-width: 800px; margin: 60px auto 40px; padding: 0 20px; text-align: center; }
@@ -39,6 +47,7 @@
         .university-card h3 { color: var(--main-color); font-size: 18px; }
         .city-badge { display: inline-block; background: var(--bg-color); color: var(--text-muted); font-size: 12px; padding: 4px 8px; border-radius: 4px; margin-top: 5px; }
         .vuz-info-text { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px; }
+        
         .card-scores { display: flex; gap: 10px; font-size: 13px; font-weight: bold; }
         .score-tag { padding: 5px 10px; border-radius: 6px; }
         .sc-budget { background: #e3f9e5; color: #1f7a26; }
@@ -51,23 +60,19 @@
 
     <header>
         <a href="index.html" class="logo">🎓 VuzStat</a>
-        <nav>
-            <a href="index.html">Главная</a>
-            <a href="calc.html">Калькулятор баллов</a>
-            <button class="theme-toggle" id="theme-btn">🌙 Темная тема</button>
-        </nav>
+        <button class="theme-toggle" id="theme-btn">🌙 Темная тема</button>
     </header>
+
     <section class="search-section">
         <h1>Найди вуз своей мечты</h1>
         <div class="search-box">
-            <input type="text" id="live-search" placeholder="Введите название вуза, город или направление...">
+            <input type="text" id="live-search" placeholder="Введите название вуза, город или направление (например: МГУ, Питер, IT)...">
         </div>
     </section>
-
-    <section class="popular-section">
+<section class="popular-section">
         <h2>Доступные учебные заведения</h2>
         <div class="cards-grid" id="vuz-container">
-            <!-- Карточки -->
+            <!-- Сюда JS загрузит карточки автоматически -->
         </div>
     </section>
 
@@ -76,23 +81,42 @@
     </footer>
 
     <script>
-        // Проверяем базу данных вузов
+        // Простая база данных вузов прямо внутри скрипта
         const universities = [
-            { name: "МГУ им. М.В. Ломоносова", city: "москва", tags: ["it", "математика", "юрист", "медицина"], link: "mgu.html", icon: "🏛️", desc: "Главный вуз страны. Высокие проходные баллы и собственный экзамен.", minBudget: 350, minComm: 240 },
-            { name: "СПбГУ", city: "санкт-петербург питер спб", tags: ["it", "международные отношения", "программирование"], link: "spbgu.html", icon: "⚓", desc: "Один из старейших вузов. Программы международного уровня.", minBudget: 298, minComm: 210 }
+            {
+                name: "МГУ им. М.В. Ломоносова",
+                city: "москва",
+                tags: ["it", "математика", "юрист", "медицина"],
+                link: "mgu.html",
+                icon: "🏛️",
+                desc: "Главный вуз страны. Высокие проходные баллы, сильные традиции и собственный внутренний экзамен (ДВИ).",
+                minBudget: 350,
+                minComm: 240
+            },
+            {
+                name: "СПбГУ",
+                city: "санкт-петербург питер спб",
+                tags: ["it", "международные отношения", "программирование"],
+                link: "spbgu.html",
+                icon: "⚓",
+                desc: "Один из старейших вузов России. Программы международного уровня и сильный преподавательский состав.",
+                minBudget: 298,
+                minComm: 210
+            }
         ];
 
-        // Функция вывода карточек
+        // Функция, которая берет массив выше и превращает его в карточки на экране
         function displayVuz(list) {
             const container = document.getElementById('vuz-container');
             if(!container) return;
+            
             container.innerHTML = "";
             
             if (list.length === 0) {
                 container.innerHTML = "<p style='color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 20px;'>Ничего не найдено...</p>";
                 return;
             }
-            
+
             list.forEach(vuz => {
                 container.innerHTML += 
                     <a href="${vuz.link}" class="university-card">
@@ -113,19 +137,23 @@
             });
         }
 
-        // Поиск
+        // Логика мгновенного поиска по буквам
         const searchInput = document.getElementById('live-search');
-        if(searchInput) {
+        if (searchInput) {
             searchInput.addEventListener('input', function(e) {
                 let text = e.target.value.toLowerCase().trim();
-                let filtered = universities.filter(vuz => vuz.name.toLowerCase().includes(text) || vuz.city.toLocaleLowerCase().includes(text) || vuz.tags.some(t => t.includes(text)));
+                let filtered = universities.filter(vuz => {
+                    return vuz.name.toLowerCase().includes(text) || 
+                           vuz.city.toLowerCase().includes(text) || 
+                           vuz.tags.some(t => t.includes(text));
+                });
                 displayVuz(filtered);
             });
         }
 
-        // Темная тема
+        // Логика работы темной темы
         const themeBtn = document.getElementById('theme-btn');
-        if(themeBtn) {
+        if (themeBtn) {
             themeBtn.addEventListener('click', function() {
                 if (document.body.getAttribute('data-theme') === 'dark') {
                     document.body.removeAttribute('data-theme');
@@ -137,7 +165,7 @@
             });
         }
 
-        // Сразу запускаем вывод карточек при загрузке страницы
+        // Принудительный вывод вузов сразу после загрузки страницы
         displayVuz(universities);
     </script>
 </body>
