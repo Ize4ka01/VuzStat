@@ -38,7 +38,6 @@
         .sc-budget { background: #e3f9e5; color: #1f7a26; }
         .sc-comm { background: #fff3cd; color: #856404; }
 
-        /* Стили модального окна всплывающей таблицы */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
         .modal-window { background: var(--card-bg); color: var(--text-color); padding: 30px; border-radius: 16px; max-width: 800px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1); position: relative; }
         .close-modal { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: var(--text-muted); }
@@ -50,7 +49,6 @@
         tr:hover { background: var(--bg-color); }
         .td-budget { color: #1f7a26; font-weight: bold; }
         .td-comm { color: #b76e00; font-weight: bold; }
-
         footer { margin-top: 80px; border-top: 1px solid var(--border-color); background: var(--card-bg); padding: 30px 5%; text-align: center; color: var(--text-muted); font-size: 14px; }
     </style>
 </head>
@@ -67,15 +65,16 @@
         </div>
         
         <div class="tabs-container">
-            <button class="tab-btn active" onclick="switchTab('after-11')">После 11 класса (Вузы)</button>
-            <button class="tab-btn" onclick="switchTab('after-9')">После 9 класса (Колледжи)</button>
+            <button class="tab-btn active" id="btn-11" onclick="switchTab('after-11')">После 11 класса (Вузы)</button>
+            <button class="tab-btn" id="btn-9" onclick="switchTab('after-9')">После 9 класса (Колледжи)</button>
         </div>
     </section>
 
     <section class="popular-section">
+
         <div id="after-11" class="cards-grid tab-content active">
             <div class="university-card" data-name="мгу им. м.в. ломоносова" data-city="москва" data-faculties="[{&quot;name&quot;: &quot;Прикладная математика и информатика&quot;, &quot;subjects&quot;: &quot;М, ИКТ, Р, ДВИ&quot;, &quot;budget&quot;: 385, &quot;comm&quot;: 270}, {&quot;name&quot;: &quot;Программная инженерия&quot;, &quot;subjects&quot;: &quot;М, ИКТ, Р, ДВИ&quot;, &quot;budget&quot;: 390, &quot;comm&quot;: 280}, {&quot;name&quot;: &quot;Юриспруденция&quot;, &quot;subjects&quot;: &quot;О, И, Р, ДВИ&quot;, &quot;budget&quot;: 365, &quot;comm&quot;: 250}, {&quot;name&quot;: &quot;Лечебное дело&quot;, &quot;subjects&quot;: &quot;Х, Б, Р, ДВИ&quot;, &quot;budget&quot;: 372, &quot;comm&quot;: 260}]" onclick="openModal('МГУ им. М.В. Ломоносова', '🏛️', this)">
-                <div class="card-header">
+            <div class="card-header">
                     <div class="vuz-icon">🏛️</div>
                     <div>
                         <h3>МГУ им. М.В. Ломоносова</h3>
@@ -89,7 +88,7 @@
                 </div>
             </div>
             <div class="university-card" data-name="спбгу" data-city="санкт-петербург питер спб" data-faculties="[{&quot;name&quot;: &quot;Международные отношения&quot;, &quot;subjects&quot;: &quot;Ист, ИЯ, Р&quot;, &quot;budget&quot;: 298, &quot;comm&quot;: 210}, {&quot;name&quot;: &quot;Математическое обеспечение админ. систем&quot;, &quot;subjects&quot;: &quot;М, ИКТ, Р&quot;, &quot;budget&quot;: 285, &quot;comm&quot;: 200}, {&quot;name&quot;: &quot;Экономика&quot;, &quot;subjects&quot;: &quot;М, О, Р&quot;, &quot;budget&quot;: 275, &quot;comm&quot;: 195}]" onclick="openModal('СПбГУ', '⚓', this)">
-                <div class="card-header">
+            <div class="card-header">
                     <div class="vuz-icon">⚓</div>
                     <div>
                         <h3>СПбГУ</h3>
@@ -104,7 +103,7 @@
             </div></div>
         <div id="after-9" class="cards-grid tab-content">
             <div class="university-card" data-name="колледж автоматизации и информационных технологий № 20" data-city="москва каит" data-faculties="[{&quot;name&quot;: &quot;Информационные системы и программирование&quot;, &quot;subjects&quot;: &quot;Аттестат&quot;, &quot;budget&quot;: 4.7, &quot;comm&quot;: 3.9}, {&quot;name&quot;: &quot;Сетевое и системное администрирование&quot;, &quot;subjects&quot;: &quot;Аттестат&quot;, &quot;budget&quot;: 4.4, &quot;comm&quot;: 3.6}, {&quot;name&quot;: &quot;Графический дизайн&quot;, &quot;subjects&quot;: &quot;Рисунок + Атт.&quot;, &quot;budget&quot;: 4.5, &quot;comm&quot;: 3.8}]" onclick="openModal('Колледж автоматизации и информационных технологий № 20', '💻', this)">
-                <div class="card-header">
+            <div class="card-header">
                     <div class="vuz-icon">💻</div>
                     <div>
                         <h3>Колледж автоматизации и информационных технологий № 20</h3>
@@ -118,7 +117,7 @@
                 </div>
             </div>
             <div class="university-card" data-name="спб технический колледж управления и коммерции" data-city="санкт-петербург питер спб ткуик" data-faculties="[{&quot;name&quot;: &quot;Компьютерные системы и комплексы&quot;, &quot;subjects&quot;: &quot;Аттестат&quot;, &quot;budget&quot;: 4.3, &quot;comm&quot;: 3.5}, {&quot;name&quot;: &quot;Технология машиностроения&quot;, &quot;subjects&quot;: &quot;Аттестат&quot;, &quot;budget&quot;: 4.0, &quot;comm&quot;: 3.2}, {&quot;name&quot;: &quot;Коммерция (по отраслям)&quot;, &quot;subjects&quot;: &quot;Аттестат&quot;, &quot;budget&quot;: 4.2, &quot;comm&quot;: 3.4}]" onclick="openModal('СПб технический колледж управления и коммерции', '🔧', this)">
-                <div class="card-header">
+            <div class="card-header">
                     <div class="vuz-icon">🔧</div>
                     <div>
                         <h3>СПб технический колледж управления и коммерции</h3>
@@ -131,19 +130,19 @@
                     <span class="score-tag sc-comm">Платное от: 3.2 (аттестат)</span>
                 </div>
             </div></div>
+    
     </section>
 
-    <!-- Модальное окно с интерактивной таблицей факультетов -->
     <div class="modal-overlay" id="modal" onclick="closeModal()">
         <div class="modal-window" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeModal()">&times;</span>
             <div class="modal-header">
                 <div class="vuz-icon" id="modal-icon">🏛️</div>
-                <h2 id="modal-title">Название ВУЗа</h2>
+                <h2 id="modal-title">Название</h2>
             </div>
             <div style="overflow-x: auto;">
                 <table>
-                <thead>
+                    <thead>
                         <tr>
                             <th>Направление подготовки</th>
                             <th>Экзамены / Предметы</th>
@@ -151,43 +150,38 @@
                             <th>Коммерция</th>
                         </tr>
                     </thead>
-                    <tbody id="modal-table-body">
-                        <!-- Сюда динамически вставится таблица из JS -->
-                    </tbody>
+                    <tbody id="modal-table-body"></tbody>
                 </table>
             </div>
         </div>
     </div>
 
     <footer><p>© 2026 VuzStat. Все права защищены.</p></footer>
-
     <script>
-        // Переключение между 9 и 11 классом
         function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.remove('active'); });
+            document.querySelectorAll('.tab-btn').forEach(function(el) { el.classList.remove('active'); });
+            
             document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            if(tabId === 'after-11') document.getElementById('btn-11').classList.add('active');
+            if(tabId === 'after-9') document.getElementById('btn-9').classList.add('active');
         }
 
-        // Логика развертывания таблицы внутри модального окна
         function openModal(name, icon, cardElement) {
             document.getElementById('modal-title').innerText = name;
             document.getElementById('modal-icon').innerText = icon;
             
-            const faculties = JSON.parse(cardElement.getAttribute('data-faculties'));
-            const tbody = document.getElementById('modal-table-body');
+            var faculties = JSON.parse(cardElement.getAttribute('data-faculties'));
+            var tbody = document.getElementById('modal-table-body');
             tbody.innerHTML = "";
             
-            faculties.forEach(f => {
-                tbody.innerHTML += 
-                    <tr>
-                        <td><strong>${f.name}</strong></td>
-                        <td><span style="color: var(--text-muted); font-size: 13px;">${f.subjects}</span></td>
-                        <td class="td-budget">${f.budget}</td>
-                        <td class="td-comm">${f.comm}</td>
-                    </tr>
-                ;
+            faculties.forEach(function(f) {
+                tbody.innerHTML += "<tr>" +
+                    "<td><strong>" + f.name + "</strong></td>" +
+                    "<td><span style='color: var(--text-muted); font-size: 13px;'>" + f.subjects + "</span></td>" +
+                    "<td class='td-budget'>" + f.budget + "</td>" +
+                    "<td class='td-comm'>" + f.comm + "</td>" +
+                    "</tr>";
             });
             
             document.getElementById('modal').style.display = 'flex';
@@ -197,9 +191,8 @@
             document.getElementById('modal').style.display = 'none';
         }
 
-        // Переключатель темной/светлой темы
-        const themeBtn = document.getElementById('theme-btn');
-        themeBtn.addEventListener('click', () => {
+        var themeBtn = document.getElementById('theme-btn');
+        themeBtn.addEventListener('click', function() {
             if (document.body.getAttribute('data-theme') === 'dark') {
                 document.body.removeAttribute('data-theme');
                 themeBtn.innerText = "🌙 Темная тема";
@@ -209,14 +202,17 @@
             }
         });
 
-        // Мгновенный "умный" поиск
-        const searchInput = document.getElementById('live-search');
-        searchInput.addEventListener('input', (e) => {
-            const text = e.target.value.toLowerCase().trim();
-            document.querySelectorAll('.university-card').forEach(card => {
-                const name = card.getAttribute('data-name');
-                const city = card.getAttribute('data-city');
-                card.style.display = (name.includes(text) || city.includes(text)) ? 'block' : 'none';
+        var searchInput = document.getElementById('live-search');
+        searchInput.addEventListener('input', function(e) {
+            var text = e.target.value.toLowerCase().trim();
+            document.querySelectorAll('.university-card').forEach(function(card) {
+                var name = card.getAttribute('data-name');
+                var city = card.getAttribute('data-city');
+                if (name.includes(text) || city.includes(text)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         });
     </script>
